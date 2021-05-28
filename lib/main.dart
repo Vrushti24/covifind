@@ -1,3 +1,4 @@
+import 'package:covifind/screens/X-ray.dart';
 import 'package:covifind/screens/intro_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -36,7 +37,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Timer(Duration(seconds: 3), () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => IntroScreen())));
   }

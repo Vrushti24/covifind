@@ -1,3 +1,4 @@
+import 'package:covifind/screens/X-ray.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -111,8 +112,12 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-          onPressed: (){},
-        icon: Icon(Icons.document_scanner),
+          onPressed: (){
+                          Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Scan()));
+          },
+        icon: Icon(Icons.scanner_outlined),
           label: Text("Scan X-Ray",style: TextStyle(fontSize: 18),),
       ),
     );
