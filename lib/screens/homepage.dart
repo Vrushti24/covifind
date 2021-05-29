@@ -152,9 +152,8 @@ class _HomePageState extends State<HomePage> {
                 );
                 showCupertinoModalPopup(
                     context: context, builder: (context) => action);
-              }
-            ),
-            makeButton("Consult a Doctor", width, () {})
+              }),
+            makeButton("Consult a Doctor", width, () {}),
           ],
         ),
       ),
