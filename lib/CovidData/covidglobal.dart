@@ -21,20 +21,18 @@ class _CovidGlobalState extends State<CovidGlobal> {
     final response =
         await http.Client().get("https://api.covid19api.com/summary");
     data = json.decode(response.body);
-
     var countrydata = [];
-
     for (var i in data["Countries"]) {
       countrydata.add(i);
     }
-
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) {
           return Scaffold(
             appBar: AppBar(
-              title: Text("Apps"),
+              centerTitle: true,
+              title: Text("Global Stats"),
             ),
             body: Padding(
               padding: EdgeInsets.symmetric(horizontal: (20)),

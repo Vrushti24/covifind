@@ -108,11 +108,9 @@ class _HomePageState extends State<HomePage> {
               }).toList(),
             ),
             makeButton(
-
               "Live Covid Data",
               width,
               () {
-
                 final action = CupertinoActionSheet(
                   title: Text(
                     "Live Covid Data",
@@ -134,9 +132,6 @@ class _HomePageState extends State<HomePage> {
                       child: Text("India"),
                       isDefaultAction: true,
                       onPressed: () {
-
-                        //Navigator.push(context, new MaterialPageRoute(builder: (context) => SignUpPage()));
-
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -145,16 +140,11 @@ class _HomePageState extends State<HomePage> {
                             },
                           ),
                         );
-                        // print("Action 2 is been clicked");
-
                       },
                     ),
                   ],
                   cancelButton: CupertinoActionSheetAction(
-
-                    child: Text("Cancel",style: TextStyle(color: Colors.red),),
-
-
+                    child: Text("Cancel", style: TextStyle(color: Colors.red),),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -162,31 +152,19 @@ class _HomePageState extends State<HomePage> {
                 );
                 showCupertinoModalPopup(
                     context: context, builder: (context) => action);
-
-              },
-            ),
-            makeButton("Consult a Doctor", width, () {})
-
+              }),
+            makeButton("Consult a Doctor", width, () {}),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-
-        onPressed: () {},
         icon: Icon(Icons.document_scanner),
         label: Text(
           "Scan X-Ray",
           style: TextStyle(fontSize: 18),
         ),
-
-          onPressed: (){
-                          Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Scan()));
+        onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => Scan()));
           },
-        icon: Icon(Icons.scanner_outlined),
-          label: Text("Scan X-Ray",style: TextStyle(fontSize: 18),),
-
       ),
     );
   }

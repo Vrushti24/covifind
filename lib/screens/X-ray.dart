@@ -62,12 +62,11 @@ final _imagePicker = ImagePicker();
       threshold: 0.5,
       imageMean: 127.5,
       imageStd: 127.5,
-     
       );
-
       setState(() {
         _loading = false;
         _output = output;
+        print(_output);
       });
   }
 
@@ -80,14 +79,15 @@ final _imagePicker = ImagePicker();
   @override
   Widget build(BuildContext context) {
     return Scaffold(appBar:  new AppBar(
-            title: Text('    X-Ray Scan',style: TextStyle(color: Colors.white) ,),
+      centerTitle: true,
+            title: Text('X-Ray Scan',style: TextStyle(color: Colors.white) ,),
             leading: new IconButton(icon: new Icon(Icons.arrow_back_rounded), 
             onPressed: () {
               Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => HomePage()));
             },
-            color: Colors.black,), 
+            color: Colors.white,),
             backgroundColor: Colors.blue),
       backgroundColor: Colors.white,
       body: _loading ? Container(
@@ -98,93 +98,136 @@ final _imagePicker = ImagePicker();
         child: Column(
           children: [
             SizedBox(height:30),
-            _image == null ?  Container() :
-            Center( 
+            _image == null ?  Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Colors.blueGrey.shade100,
+              ),
+              width: 300,
+              height: 300,
+            ) : Center(
               child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.blueGrey.shade100,
+                ),
                 child:Image.file(_image),
+                width: 300,
                 height:300,
               )
             ),
-            SizedBox(height: 10,),
-            _output != null ? Text("${_output[0]["label"]}".replaceAll(RegExp(r'[0-9]'), '',),
-            style: TextStyle(color:Colors.red, fontSize: 20),) : Text("Waiting", style: TextStyle(color:Colors.yellow, fontSize: 20)),
             SizedBox(height: 20,),
+            _output != null
+                ? Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  height: MediaQuery.of(context).size.height * 0.12,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('RESULTS', style: TextStyle(fontSize: 20),),
+                        Divider(thickness: 2,),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text("Covid Status: ${_output[0]["label"]}".replaceAll(RegExp(r'[0-9]'), '',),
+                          style: TextStyle(color:Colors.red, fontSize: 20),),
+                      ],
+                    ),
+                  ),
+                )
+                : Container(
+              decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: MediaQuery.of(context).size.height * 0.12,
+              child: Center(child: Text("Please upload your X-ray \n or CT Scan image", style: TextStyle(color:Colors.blueGrey, fontSize: 20))),
+            ),
+            //SizedBox(height: 20,),
              Padding(
-           padding: const EdgeInsets.fromLTRB(20, 90, 20, 30),
-           child: Row(
-             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children:[ Container(
-               height: 70,
-               width: 150,
-               decoration: BoxDecoration(
-                 color: Colors.blue,
-                 borderRadius: BorderRadius.circular(20),
-               ),
-               child:GestureDetector(
-                  onTap: () => clickImage() ,
-                  child:Stack(
-                 children: [
-                   Positioned(
-                     top: 10,
-                     height: 20,
-                     left: 53,
-                     child: Text('Click',style: TextStyle(color:Colors.white,fontSize: 20),)),
-                     Positioned(
-                       top: 35,
-                       left: 62,
-                       child: Icon(Icons.camera_enhance))
-                 ],
-               ))
-             ),
-             Container(
-               height: 70,
-               width: 150,
-               decoration: BoxDecoration(
-                 color: Colors.blue,
-                 borderRadius: BorderRadius.circular(20),
-             ),
-             child:GestureDetector(
-                  onTap: () => pickImage(),
-                  child:Stack(
-                 children: [
-                   Positioned(
-                     top: 10,
-                     height: 25,
-                     left: 48,
-                     child: Text('Upload',style: TextStyle(color:Colors.white,fontSize: 20),)),
-                     Positioned(
-                       top: 35,
-                       left: 62,
-                       child: Icon(Icons.file_upload))
-                 ],
-               )
-             )),
-             
-             ],
+                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
+                 child: Row(
+                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                   children:[
+                     Container(
+                         height: 70,
+                         width: 150,
+                         decoration: BoxDecoration(
+                           color: Colors.blue,
+                           borderRadius: BorderRadius.circular(20),
+                         ),
+                         child:GestureDetector(
+                                onTap: () => clickImage() ,
+                                child:Stack(
+                               children: [
+                                 Positioned(
+                                   top: 10,
+                                   height: 20,
+                                   left: 53,
+                                   child: Text('Click',style: TextStyle(color:Colors.white,fontSize: 20),)),
+                                   Positioned(
+                                     top: 35,
+                                     left: 62,
+                                     child: Icon(Icons.camera_enhance,color: Colors.white,))
+                               ],
+                         ))
+                       ),
+                     Container(
+                           height: 70,
+                           width: 150,
+                           decoration: BoxDecoration(
+                             color: Colors.blue,
+                             borderRadius: BorderRadius.circular(20),
+                         ),
+                         child:GestureDetector(
+                              onTap: () => pickImage(),
+                              child:Stack(
+                             children: [
+                               Positioned(
+                                 top: 10,
+                                 height: 25,
+                                 left: 48,
+                                 child: Text('Upload',style: TextStyle(color:Colors.white,fontSize: 20),)),
+                                 Positioned(
+                                   top: 35,
+                                   left: 62,
+                                   child: Icon(Icons.file_upload,color: Colors.white,))
+                             ],
+                           )
+                         )),
+                   ],
              ),
          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-            child: Container(
-                 height: 60,
-                 width: 250,
-                 decoration: BoxDecoration(
-                   color: Colors.blue,
-                   borderRadius: BorderRadius.circular(20),
-               ),
-               child:GestureDetector(
-                    onTap: (){},
-                    child:Stack(
-                   children: [
-                     Positioned(
-                       top: 20,
-                       height: 25,
-                       left: 48,
-                       child: Text('Consult a Doctor',style: TextStyle(color:Colors.white,fontSize: 20),)),
-                      
-                   ],
-                 )
-               )),
+             Padding(
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                child: Container(
+                     height: 60,
+                     width: 250,
+                     decoration: BoxDecoration(
+                       color: Colors.blue,
+                       borderRadius: BorderRadius.circular(20),
+                   ),
+                   child:GestureDetector(
+                        onTap: (){
+
+                        },
+                        child:Stack(
+                       children: [
+                         Positioned(
+                           top: 20,
+                           height: 25,
+                           left: 48,
+                           child: Text('Consult a Doctor',style: TextStyle(color:Colors.white,fontSize: 20),)),
+                       ],
+                     )
+                   )),
           ),
        ],
       ),
