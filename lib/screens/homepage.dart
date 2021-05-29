@@ -1,3 +1,8 @@
+
+import 'package:covifind/CovidData/covidindia.dart';
+
+import 'package:covifind/screens/X-ray.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -28,7 +33,7 @@ List cardList = [
   ),
 ];
 
-Widget makeButton (String title, var width , Function function){
+Widget makeButton(String title, var width, Function function) {
   return Container(
     margin: EdgeInsets.all(20.0),
     width: width,
@@ -41,19 +46,19 @@ Widget makeButton (String title, var width , Function function){
           color: Colors.grey,
           blurRadius: 50.0,
           spreadRadius: 0,
-          offset: Offset(
-              0.0,20.0
-          ),
+          offset: Offset(0.0, 20.0),
         ),
       ],
     ),
     child: TextButton(
       onPressed: function,
-      child: Text(title,
+      child: Text(
+        title,
         style: TextStyle(
           color: Colors.white,
           fontSize: 18,
-        ),),
+        ),
+      ),
     ),
   );
 }
@@ -65,19 +70,20 @@ class _HomePageState extends State<HomePage> {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        title: Container(
-          height: 60,
-          child: Image.asset("assets/images/covifind.png"),
-        )
-      ),
+          centerTitle: true,
+          backgroundColor: Colors.white,
+          title: Container(
+            height: 60,
+            child: Image.asset("assets/images/covifind.png"),
+          )),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             CarouselSlider(
               options: CarouselOptions(
                 autoPlay: true,
@@ -102,8 +108,11 @@ class _HomePageState extends State<HomePage> {
               }).toList(),
             ),
             makeButton(
-                "Live Covid Data",
-                width, () {
+
+              "Live Covid Data",
+              width,
+              () {
+
                 final action = CupertinoActionSheet(
                   title: Text(
                     "Live Covid Data",
@@ -125,12 +134,27 @@ class _HomePageState extends State<HomePage> {
                       child: Text("India"),
                       isDefaultAction: true,
                       onPressed: () {
+
                         //Navigator.push(context, new MaterialPageRoute(builder: (context) => SignUpPage()));
+
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return CovidIndia();
+                            },
+                          ),
+                        );
+                        // print("Action 2 is been clicked");
+
                       },
                     ),
                   ],
                   cancelButton: CupertinoActionSheetAction(
+
                     child: Text("Cancel",style: TextStyle(color: Colors.red),),
+
+
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -138,16 +162,31 @@ class _HomePageState extends State<HomePage> {
                 );
                 showCupertinoModalPopup(
                     context: context, builder: (context) => action);
-                },
-              ),
-            makeButton("Consult a Doctor", width , (){} )
+
+              },
+            ),
+            makeButton("Consult a Doctor", width, () {})
+
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-          onPressed: (){},
+
+        onPressed: () {},
         icon: Icon(Icons.document_scanner),
+        label: Text(
+          "Scan X-Ray",
+          style: TextStyle(fontSize: 18),
+        ),
+
+          onPressed: (){
+                          Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Scan()));
+          },
+        icon: Icon(Icons.scanner_outlined),
           label: Text("Scan X-Ray",style: TextStyle(fontSize: 18),),
+
       ),
     );
   }
