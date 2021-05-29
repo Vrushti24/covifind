@@ -103,9 +103,43 @@ class _HomePageState extends State<HomePage> {
             ),
             makeButton(
                 "Live Covid Data",
-                width, (){
-                  //Navigator.push(context, MaterialPageRoute(builder: builder))
-            } ),
+                width, () {
+                final action = CupertinoActionSheet(
+                  title: Text(
+                    "Live Covid Data",
+                    style: TextStyle(fontSize: 30),
+                  ),
+                  message: Text(
+                    "Select any action ",
+                    style: TextStyle(fontSize: 15.0),
+                  ),
+                  actions: <Widget>[
+                    CupertinoActionSheetAction(
+                      child: Text("Global"),
+                      isDefaultAction: true,
+                      onPressed: () {
+                        print("Action 1 is been clicked");
+                      },
+                    ),
+                    CupertinoActionSheetAction(
+                      child: Text("India"),
+                      isDefaultAction: true,
+                      onPressed: () {
+                        //Navigator.push(context, new MaterialPageRoute(builder: (context) => SignUpPage()));
+                      },
+                    ),
+                  ],
+                  cancelButton: CupertinoActionSheetAction(
+                    child: Text("Cancel",style: TextStyle(color: Colors.red),),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                );
+                showCupertinoModalPopup(
+                    context: context, builder: (context) => action);
+                },
+              ),
             makeButton("Consult a Doctor", width , (){} )
           ],
         ),
@@ -118,3 +152,4 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
