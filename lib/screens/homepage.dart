@@ -1,8 +1,7 @@
-
+import 'package:covifind/CovidData/covidglobal.dart';
 import 'package:covifind/CovidData/covidindia.dart';
-
 import 'package:covifind/screens/X-ray.dart';
-
+import 'package:covifind/screens/doctor_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -66,7 +65,6 @@ Widget makeButton(String title, var width, Function function) {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
@@ -116,20 +114,27 @@ class _HomePageState extends State<HomePage> {
                     "Live Covid Data",
                     style: TextStyle(fontSize: 30),
                   ),
-                  message: Text(
-                    "Select any action ",
-                    style: TextStyle(fontSize: 15.0),
-                  ),
+//                  message: Text(
+//                    "Select any action ",
+//                    style: TextStyle(fontSize: 15.0),
+//                  ),
                   actions: <Widget>[
                     CupertinoActionSheetAction(
-                      child: Text("Global"),
+                      child: Text("Global Data"),
                       isDefaultAction: true,
                       onPressed: () {
-                        print("Action 1 is been clicked");
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return CovidGlobal();
+                            },
+                          ),
+                        );
                       },
                     ),
                     CupertinoActionSheetAction(
-                      child: Text("India"),
+                      child: Text("Indian Data"),
                       isDefaultAction: true,
                       onPressed: () {
                         Navigator.pushReplacement(
@@ -153,7 +158,9 @@ class _HomePageState extends State<HomePage> {
                 showCupertinoModalPopup(
                     context: context, builder: (context) => action);
               }),
-            makeButton("Consult a Doctor", width, () {}),
+            makeButton("Consult a Doctor", width, () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorPage()));
+            }),
           ],
         ),
       ),
@@ -163,7 +170,8 @@ class _HomePageState extends State<HomePage> {
           "Scan X-Ray",
           style: TextStyle(fontSize: 18),
         ),
-        onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => Scan()));
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Scan()));
           },
       ),
     );
