@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:covifind/screens/doctor_page.dart';
 import 'package:covifind/screens/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,7 +11,7 @@ class Scan extends StatefulWidget {
 }
 
 class _ScanState extends State<Scan> {
-
+Color color = Colors.green;
 bool _loading;
 File _image;
 List _output;
@@ -66,6 +67,10 @@ final _imagePicker = ImagePicker();
       setState(() {
         _loading = false;
         _output = output;
+        if(_output[0]["label"] == "1 Positive"){
+          color = Colors.red;
+        }
+        print(color);
         print(_output);
       });
   }
@@ -135,8 +140,14 @@ final _imagePicker = ImagePicker();
                         SizedBox(
                           height: 5,
                         ),
-                        Text("Covid Status: ${_output[0]["label"]}".replaceAll(RegExp(r'[0-9]'), '',),
-                          style: TextStyle(color:Colors.red, fontSize: 20),),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Covid Status: ", style: TextStyle(color:Colors.black, fontSize: 20),),
+                            Text("${_output[0]["label"]}".replaceAll(RegExp(r'[0-9]'), '',),
+                              style: TextStyle(color: color, fontSize: 20,fontWeight: FontWeight.bold),),
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -163,45 +174,51 @@ final _imagePicker = ImagePicker();
                            color: Colors.blue,
                            borderRadius: BorderRadius.circular(20),
                          ),
-                         child:GestureDetector(
-                                onTap: () => clickImage() ,
-                                child:Stack(
+                         child:TextButton(
+                             onPressed: (){
+                               clickImage();
+                             },
+                             child: Row(
+                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                children: [
-                                 Positioned(
-                                   top: 10,
-                                   height: 20,
-                                   left: 53,
-                                   child: Text('Click',style: TextStyle(color:Colors.white,fontSize: 20),)),
-                                   Positioned(
-                                     top: 35,
-                                     left: 62,
-                                     child: Icon(Icons.camera_enhance,color: Colors.white,))
+                                 Padding(
+                                   padding: const EdgeInsets.fromLTRB(20,0,0,0),
+                                   child: Text("Click",style: TextStyle(color:Colors.white,fontSize: 20),),
+                                 ),
+                                 Padding(
+                                   padding: const EdgeInsets.fromLTRB(0,0,20,0),
+                                   child: Icon(Icons.camera_enhance_rounded,color: Colors.white,),
+                                 ),
                                ],
-                         ))
+                             )
+                         ),
                        ),
                      Container(
-                           height: 70,
-                           width: 150,
-                           decoration: BoxDecoration(
-                             color: Colors.blue,
-                             borderRadius: BorderRadius.circular(20),
-                         ),
-                         child:GestureDetector(
-                              onTap: () => pickImage(),
-                              child:Stack(
+                       height: 70,
+                       width: 150,
+                       decoration: BoxDecoration(
+                         color: Colors.blue,
+                         borderRadius: BorderRadius.circular(20),
+                       ),
+                       child:TextButton(
+                           onPressed: (){
+                             pickImage();
+                           },
+                           child: Row(
+                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                              children: [
-                               Positioned(
-                                 top: 10,
-                                 height: 25,
-                                 left: 48,
-                                 child: Text('Upload',style: TextStyle(color:Colors.white,fontSize: 20),)),
-                                 Positioned(
-                                   top: 35,
-                                   left: 62,
-                                   child: Icon(Icons.file_upload,color: Colors.white,))
+                               Padding(
+                                 padding: const EdgeInsets.fromLTRB(20,0,0,0),
+                                 child: Text("Upload",style: TextStyle(color:Colors.white,fontSize: 20),),
+                               ),
+                               Padding(
+                                 padding: const EdgeInsets.fromLTRB(0,0,20,0),
+                                 child: Icon(Icons.file_upload,color: Colors.white,),
+                               ),
                              ],
                            )
-                         )),
+                       ),
+                     ),
                    ],
              ),
          ),
@@ -216,7 +233,7 @@ final _imagePicker = ImagePicker();
                    ),
                    child:GestureDetector(
                         onTap: (){
-
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorPage()));
                         },
                         child:Stack(
                        children: [
@@ -229,7 +246,47 @@ final _imagePicker = ImagePicker();
                      )
                    )),
           ),
-       ],
+             _image != null
+                 ? Padding(
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                child: Container(
+                    height: 60,
+                    width: 250,
+                    decoration: BoxDecoration(
+                      color: Colors.redAccent,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: TextButton(
+                      onPressed: (){
+                        setState(() {
+                          color = Colors.green;
+                          _image = null;
+                          _output = null;
+                        });
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(30,0,0,0),
+                            child: Text("Clear Image",style: TextStyle(color:Colors.white,fontSize: 20),),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0,0,30,0),
+                            child: Icon(Icons.cancel,color: Colors.white,),
+                          ),
+                        ],
+                      )
+                    ),
+            ),)
+                 : Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                  child: Container(
+                    height: 60,
+                    width: 250,
+                    child: null
+                  ),)
+             ],
       ),
     ));
   }

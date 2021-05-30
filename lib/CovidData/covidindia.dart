@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'dart:async';
 import 'package:http/http.dart' as http;
 
 class CovidIndia extends StatefulWidget {
@@ -194,8 +193,6 @@ class _CovidIndiaState extends State<CovidIndia> {
     covidstates();
   }
 
-  ScrollController _controller = ScrollController();
-
   void covidstates() async {
     var data;
     final response =
@@ -205,7 +202,7 @@ class _CovidIndiaState extends State<CovidIndia> {
     var statedata = [];
 
     for (var i in data["statewise"]) {
-      statedata.add(i);
+      if (i["state"] != "State Unassigned") statedata.add(i);
     }
 
     Navigator.pushReplacement(
@@ -218,33 +215,30 @@ class _CovidIndiaState extends State<CovidIndia> {
               title: Text("India Stats"),
             ),
             body: Padding(
-              padding: EdgeInsets.symmetric(horizontal: (10)),
-              child: Scrollbar(
-                thickness: 5.0,
-                controller: _controller,
-                isAlwaysShown: true,
-                showTrackOnHover: true,
-                child: ListView.builder(
-                  itemCount: statedata.length,
-                  itemBuilder: (context, index) => Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(15)
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0,8,0,0),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 5.0),
-                              child: Text("${statedata[index]["state"]}",style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold,color: Colors.blue.shade600),),
+              padding: EdgeInsets.symmetric(horizontal: (0)),
+              child: ListView.builder(
+                itemCount: statedata.length,
+                itemBuilder: (context, index) => Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(15)
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0,8,0,0),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            child: Text("${statedata[index]["state"]}",
+                              style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold,color: Colors.blue.shade600),
+                              textAlign: TextAlign.center,
                             ),
-                            Divider(thickness: 1.5,),
-                            StateDataCard(statedata[index]),
-                          ],
-                        ),
+                          ),
+                          Divider(thickness: 1.5,),
+                          StateDataCard(statedata[index]),
+                        ],
                       ),
                     ),
                   ),
